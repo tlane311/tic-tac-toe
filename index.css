@@ -1,0 +1,40 @@
+*{
+    --square-size: max(min(15vw,15vh),64px);
+    font-family:sans-serif;
+}
+
+body{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+#gameboard{
+    margin:32px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content: center;
+    width: calc(3.2*var(--square-size));
+}
+
+.square{
+    height:var(--square-size);
+    width:var(--square-size);
+    border: solid 3px black;
+    cursor: pointer;
+    user-select:none;
+
+}
+
+#square-0, #square-3, #square-6{
+    border-left-width:0;
+}
+#square-0, #square-1, #square-2{
+    border-top-width:0;
+}
+#square-2, #square-5, #square-8{
+    border-right-width:0;
+}
+#square-6, #square-7, #square-8{
+    border-bottom-width:0;
+}
