@@ -45,7 +45,11 @@ const GameBoard = (() => {
 
     }
 
-    return {squares, updateSquare, checkForWinner, checkForDraw};
+    const resetGame = () => {
+        squares.fill(undefined);
+    }
+
+    return {squares, updateSquare, checkForWinner, checkForDraw, resetGame };
 
 })();
 
@@ -118,21 +122,25 @@ const DisplayController = ( () => {
     const board = instance.gameBoard; // note, this is a living reference
 
     const displaySquares = document.querySelectorAll(".square");
+    const displayWinner = document.querySelector('h2#winner-is');
 
     function renderBoard(){
         const squares = board.squares;
         
-        displaySquares.forEach( (square,index) => {
-            if (squares[index]){
-                square.innerText = squares[index];
-            }
+        displaySquares.forEach( (square,index) => {    
+            square.innerText = squares[index] || "";
+            
         });
 
         const thereIsWinner = instance.thereIsWinner();
         if (thereIsWinner){
-            const displayWinner = document.querySelector('h2#winner-is');
-
-            displayWinner.innerText = instance.winnerIs();
+            
+            const inputXName = document.querySelector('input[name="player-X"]').value;
+            const inputOName = document.querySelector('input[name="player-O"]').value;
+            const winnerName = instance.winnerIs() === 'x'
+                ? inputXName || 'x'
+                : inputOName || 'o'
+            displayWinner.innerText = `${winnerName.toUpperCase()} WINS`;
         }
     }
 
@@ -143,8 +151,15 @@ const DisplayController = ( () => {
             instance.takeTurn(index);
             renderBoard();
         }
-        square.addEventListener('click',clickHandler);
+        square.addEventListener('click', clickHandler);
     })
 
+    const resetBtn = document.querySelector('button#reset-game-btn');
+
+    resetBtn.addEventListener('click', () => {
+        board.resetGame();
+        renderBoard();
+        displayWinner.innerText="";
+    })
     return {};
 } )()
