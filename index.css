@@ -1,6 +1,7 @@
 *{
     --square-size: max(min(15vw,15vh),64px);
-    font-family:sans-serif;
+    font-family: 'Lato', sans-serif;
+    box-sizing: border-box;
 }
 
 body{
@@ -23,7 +24,9 @@ body{
     border: solid 3px black;
     cursor: pointer;
     user-select:none;
-
+    text-align:center;
+    font-size: calc(.6*var(--square-size));
+    padding: 16px;
 }
 
 #square-0, #square-3, #square-6{

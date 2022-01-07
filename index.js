@@ -107,7 +107,16 @@ const GameInstance = (() => {
         });
     }
 
-    return {isXTurn, thereIsWinner, thereIsDraw, winnerIs, gameBoard, takeTurn};
+    function resetGame(){
+        updateState({
+            thereIsWinner: undefined,
+            isXTurn: true,
+            thereIsDraw: undefined,
+            winnerIs: undefined
+        })
+    }
+
+    return {isXTurn, thereIsWinner, thereIsDraw, winnerIs, gameBoard, takeTurn, resetGame};
 
 })();
 
@@ -133,14 +142,17 @@ const DisplayController = ( () => {
         });
 
         const thereIsWinner = instance.thereIsWinner();
+        const thereIsDraw = instance.thereIsDraw();
         if (thereIsWinner){
-            
             const inputXName = document.querySelector('input[name="player-X"]').value;
             const inputOName = document.querySelector('input[name="player-O"]').value;
             const winnerName = instance.winnerIs() === 'x'
                 ? inputXName || 'x'
                 : inputOName || 'o'
             displayWinner.innerText = `${winnerName.toUpperCase()} WINS`;
+        }
+        if (thereIsDraw){
+            displayWinner.innerText = `DRAW`
         }
     }
 
@@ -158,6 +170,7 @@ const DisplayController = ( () => {
 
     resetBtn.addEventListener('click', () => {
         board.resetGame();
+        instance.resetGame();
         renderBoard();
         displayWinner.innerText="";
     })
